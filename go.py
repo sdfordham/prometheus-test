@@ -3,7 +3,7 @@ from typing import Optional, Any
 import time
 import os
 
-from prometheus_client import start_http_server, Summary
+from prometheus_client import start_http_server, Summary, Gauge
 import requests
 
 
@@ -11,7 +11,7 @@ class TFLBikePointRequest:
     ENDPOINT = "https://api.tfl.gov.uk/BikePoint/"
 
     def __init__(self, app_key: str, id: str) -> None:
-        self.params = {'app_key': app_key}
+        self.params = {"app_key": app_key}
         self.id = id
         self.response: Optional[dict[str, Any]] = None
 
@@ -49,15 +49,25 @@ class TFLBikePointRequest:
         return None
 
 
-REQUEST_TIME = Summary('request_processing_seconds', 'Time spent processing request')
+REQUEST_TIME = Summary("request_processing_seconds", "Time spent processing request")
+GAUGES = {
+    "bikes": Gauge("bikes", "Number of bikes"),
+    "total_docks": Gauge("total_docks", "Total number of docks"),
+    "empty_docks": Gauge("empty_docks", "Number of empty docks"),
+    "broken_docks": Gauge("broken_docks", "Number of broken docks")
+}
 
 
 @REQUEST_TIME.time()
 def do_tfl_get_request(req: TFLBikePointRequest) -> None:
     req.get()
+    for key, gauge in GAUGES.items():
+        dock_stat = getattr(req, key)
+        if dock_stat:
+            gauge.set(dock_stat)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     from dotenv import load_dotenv
 
     load_dotenv()
