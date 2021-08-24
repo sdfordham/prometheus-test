@@ -1,0 +1,13 @@
+version: '3.4'
+
+services:
+  prometheustest:
+    image: prometheusmonitor
+    build:
+      context: .
+      dockerfile: .prometheus-monitor/Dockerfile
+
+networks: 
+    prometheusbridgenet:
+        name: prometheustestnet
+        driver: bridge

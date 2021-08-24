@@ -72,7 +72,7 @@ if __name__ == "__main__":
 
     load_dotenv()
 
-    APP_KEY = os.environ.get("APP_KEY")
+    APP_KEY = os.environ.get("APP_KEY", "")
     ID = "BikePoints_73"
     BUFFER = 10
 
