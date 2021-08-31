@@ -1,13 +1,14 @@
-version: '3.4'
+version: "3.9"
 
 services:
-  prometheustest:
+  prometheusmonitor:
     image: prometheusmonitor
     build:
       context: .
-      dockerfile: .prometheus-monitor/Dockerfile
+      dockerfile: .prometheus_monitor/Dockerfile
 
-networks: 
-    prometheusbridgenet:
-        name: prometheustestnet
-        driver: bridge
+  tfl_bikepoint:
+    image: tfl_bikepoint
+    build:
+      context: .
+      dockerfile: tfl_bikepoint/Dockerfile
