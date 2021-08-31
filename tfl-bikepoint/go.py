@@ -10,14 +10,14 @@ import requests
 class TFLBikePointRequest:
     ENDPOINT = "https://api.tfl.gov.uk/BikePoint/"
 
-    def __init__(self, app_key: str, id: str) -> None:
-        self.params = {"app_key": app_key}
-        self.id = id
+    def __init__(self, api_key: str, bikepoint_id: str) -> None:
+        self.params = {"app_key": api_key}
+        self.bikepoint_id = bikepoint_id
         self.response: Optional[dict[str, Any]] = None
 
     def get(self) -> None:
         _req = requests.get(
-            urljoin(self.ENDPOINT, self.id),
+            urljoin(self.ENDPOINT, self.bikepoint_id),
             params=self.params
         )
         self.response = _req.json()
@@ -68,17 +68,15 @@ def do_tfl_get_request(req: TFLBikePointRequest) -> None:
 
 
 if __name__ == "__main__":
-    from dotenv import load_dotenv
+    api_key = os.environ.get("API_KEY")
+    bikepoint_id = os.environ.get("BIKEPOINT_ID")
+    server_port = int(os.environ.get("SERVER_PORT"))
+    request_buffer = int(os.environ.get("REQUEST_BUFFER"))
 
-    load_dotenv()
+    req = TFLBikePointRequest(api_key=api_key,
+                              bikepoint_id=bikepoint_id)
+    start_http_server(server_port)
 
-    APP_KEY = os.environ.get("APP_KEY", "")
-    ID = "BikePoints_73"
-    BUFFER = 10
-
-    req = TFLBikePointRequest(app_key=APP_KEY,
-                              id=ID)
-    start_http_server(8000)
     while True:
         do_tfl_get_request(req)
-        time.sleep(BUFFER)
+        time.sleep(request_buffer)
