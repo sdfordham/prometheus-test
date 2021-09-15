@@ -1,14 +1,22 @@
 version: "3.9"
 
 services:
-  prometheusmonitor:
-    image: prometheusmonitor
-    build:
-      context: .
-      dockerfile: .prometheus_monitor/Dockerfile
-
   tfl_bikepoint:
     image: tfl_bikepoint
     build:
       context: .
       dockerfile: tfl_bikepoint/Dockerfile
+
+  prometheusmonitor:
+    image: prometheus_monitor
+    build:
+      context: .
+      dockerfile: .prometheus_monitor/Dockerfile
+
+  grafana_main:
+    image: grafana_main
+    build:
+      context: .
+      dockerfile: grafana_main/Dockerfile
+    ports:
+      - "3000:3000"
