@@ -1,17 +1,31 @@
-build_all:
-		docker build --rm --file "prometheus_monitor\Dockerfile" --tag prometheus_monitor:latest "prometheus_monitor"
-		docker build --rm --file "tfl_bikepoint\Dockerfile" --tag tfl_bikepoint:latest "tfl_bikepoint"
-		docker build --rm --file "grafana_main\Dockerfile" --tag grafana_main:latest "grafana_main"
-		docker image prune -f
+SERVICES = prometheus_monitor tfl_bikepoint
+DASHBOARD = grafana_main
+BRIDGE_NET_NAME = user_bridge
+PUB_PORT = 3000
 
-run_all:
-		docker network create user_bridge
-		docker run --rm --detach --name tfl_bikepoint --network user_bridge tfl_bikepoint
-		docker run --rm --detach --name prometheus_monitor --network user_bridge prometheus_monitor
-		docker run --rm --detach --name grafana_main --network user_bridge --publish 3000:3000 grafana_main
+all: build run
 
-stop_all:
-		docker container stop tfl_bikepoint
-		docker container stop prometheus_monitor
-		docker container stop grafana_main
-		docker network rm user_bridge
+build: $(addsuffix _build,$(SERVICES)) $(addsuffix _build,$(DASHBOARD)) prune
+
+run: network $(addsuffix _run,$(SERVICES)) $(addsuffix _run_dashboard,$(DASHBOARD))
+
+%_build::
+	docker build --rm --file "$*\Dockerfile" --$*:latest "$*"
+
+%_run::
+	docker run --rm --detach --name $* --network $(BRIDGE_NET_NAME) $*
+
+%_run_dashboard::
+	docker run --rm --detach --name $* --network $(BRIDGE_NET_NAME) --publish $(PUB_PORT):$(PUB_PORT) $*
+
+network:
+	docker network create $(BRIDGE_NET_NAME)
+
+prune:
+	docker image prune -f
+
+stop: $(addsuffix _stop,$(SERVICES)) $(addsuffix _stop,$(DASHBOARD))
+	docker network rm $(BRIDGE_NET_NAME)
+
+%_stop::
+	docker container stop $*
