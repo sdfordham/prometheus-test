@@ -1,149 +1,265 @@
 {
-    "annotations": {
-      "list": [
-        {
-          "builtIn": 1,
-          "datasource": "-- Grafana --",
-          "enable": true,
-          "hide": true,
-          "iconColor": "rgba(0, 211, 255, 1)",
-          "name": "Annotations & Alerts",
-          "target": {
-            "limit": 100,
-            "matchAny": false,
-            "tags": [],
-            "type": "dashboard"
-          },
-          "type": "dashboard"
-        }
-      ]
-    },
-    "editable": true,
-    "gnetId": null,
-    "graphTooltip": 0,
-    "id": 1,
-    "links": [],
-    "panels": [
+  "annotations": {
+    "list": [
       {
-        "datasource": null,
-        "fieldConfig": {
-          "defaults": {
-            "color": {
-              "mode": "palette-classic"
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "gnetId": null,
+  "graphTooltip": 0,
+  "id": 1,
+  "links": [],
+  "panels": [
+    {
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
             },
-            "custom": {
-              "axisLabel": "",
-              "axisPlacement": "auto",
-              "barAlignment": 0,
-              "drawStyle": "line",
-              "fillOpacity": 0,
-              "gradientMode": "none",
-              "hideFrom": {
-                "legend": false,
-                "tooltip": false,
-                "viz": false
-              },
-              "lineInterpolation": "linear",
-              "lineWidth": 1,
-              "pointSize": 5,
-              "scaleDistribution": {
-                "type": "linear"
-              },
-              "showPoints": "auto",
-              "spanNulls": false,
-              "stacking": {
-                "group": "A",
-                "mode": "none"
-              },
-              "thresholdsStyle": {
-                "mode": "off"
-              }
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
             },
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": null
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                }
-              ]
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
             }
           },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 23,
-          "w": 24,
-          "x": 0,
-          "y": 0
-        },
-        "id": 2,
-        "options": {
-          "legend": {
-            "calcs": [],
-            "displayMode": "list",
-            "placement": "bottom"
-          },
-          "tooltip": {
-            "mode": "single"
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
           }
         },
-        "targets": [
-          {
-            "exemplar": true,
-            "expr": "bikes",
-            "interval": "",
-            "legendFormat": "Bikes available",
-            "refId": "A"
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 11,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 2,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "single"
+        }
+      },
+      "targets": [
+        {
+          "exemplar": true,
+          "expr": "bikes",
+          "interval": "",
+          "legendFormat": "Bikes available",
+          "refId": "A"
+        },
+        {
+          "exemplar": true,
+          "expr": "empty_docks",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "Empty docks",
+          "refId": "B"
+        },
+        {
+          "exemplar": true,
+          "expr": "total_docks",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "Total Docks",
+          "refId": "C"
+        },
+        {
+          "exemplar": true,
+          "expr": "broken_docks",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "Broken Docks",
+          "refId": "D"
+        }
+      ],
+      "title": "Old Street Bikepoint",
+      "type": "timeseries"
+    },
+    {
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
           },
-          {
-            "exemplar": true,
-            "expr": "empty_docks",
-            "hide": false,
-            "interval": "",
-            "legendFormat": "Empty docks",
-            "refId": "B"
-          },
-          {
-            "exemplar": true,
-            "expr": "total_docks",
-            "hide": false,
-            "interval": "",
-            "legendFormat": "Total Docks",
-            "refId": "C"
-          },
-          {
-            "exemplar": true,
-            "expr": "broken_docks",
-            "hide": false,
-            "interval": "",
-            "legendFormat": "Broken Docks",
-            "refId": "D"
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
           }
-        ],
-        "title": "Old Street Bikepoint",
-        "type": "timeseries"
-      }
-    ],
-    "refresh": "30s",
-    "schemaVersion": 30,
-    "style": "dark",
-    "tags": [],
-    "templating": {
-      "list": []
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 11
+      },
+      "id": 8,
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true,
+        "text": {}
+      },
+      "pluginVersion": "8.1.4",
+      "targets": [
+        {
+          "exemplar": true,
+          "expr": "bikes",
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Number of bikes available",
+      "type": "gauge"
     },
-    "time": {
-      "from": "now-3h",
-      "to": "now"
-    },
-    "timepicker": {},
-    "timezone": "",
-    "title": "TFL",
-    "uid": "rQYunsInz",
-    "version": 2
-  }
+    {
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 11
+      },
+      "id": 6,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "8.1.4",
+      "targets": [
+        {
+          "exemplar": true,
+          "expr": "rate(request_processing_seconds_sum[1m]) / rate(request_processing_seconds_count[1m])",
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Average TFL request time seconds",
+      "type": "stat"
+    }
+  ],
+  "refresh": "30s",
+  "schemaVersion": 30,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-3h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "TFL",
+  "uid": "rQYunsInz",
+  "version": 1
+}

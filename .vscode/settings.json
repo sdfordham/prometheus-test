@@ -8,6 +8,7 @@
     "files.autoSave": "afterDelay",
     "files.insertFinalNewline": true,
     "git.ignoreLimitWarning": true,
+    "git.enableCommitSigning": true,
     "python.linting.flake8Enabled": true,
     "python.linting.flake8Args": [
         "--ignore=E501",
