@@ -16,7 +16,7 @@ run: network $(addsuffix _run,$(SERVICES)) $(addsuffix _run_dashboard,$(DASHBOAR
 	docker run --rm --detach --name $* --network $(BRIDGE_NET_NAME) $*
 
 %_run_dashboard::
-	docker run --rm --detach --name $* --network $(BRIDGE_NET_NAME) --publish $(PUB_PORT):$(PUB_PORT) $*
+	docker run --rm --detach --name $* --network $(BRIDGE_NET_NAME) --publish 3000:$(PUB_PORT) $*
 
 network:
 	docker network create $(BRIDGE_NET_NAME)
