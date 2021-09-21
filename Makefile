@@ -10,7 +10,7 @@ build: $(addsuffix _build,$(SERVICES)) $(addsuffix _build,$(DASHBOARD)) prune
 run: network $(addsuffix _run,$(SERVICES)) $(addsuffix _run_dashboard,$(DASHBOARD))
 
 %_build::
-	docker build --rm --file "$*\Dockerfile" --$*:latest "$*"
+	docker build --rm --file "$*\Dockerfile" --tag $*:latest "$*"
 
 %_run::
 	docker run --rm --detach --name $* --network $(BRIDGE_NET_NAME) $*
