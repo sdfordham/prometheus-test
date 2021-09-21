@@ -11,6 +11,7 @@ class TFLBikePointRequest:
     ENDPOINT = "https://api.tfl.gov.uk/BikePoint/"
 
     def __init__(self, api_key: str, bikepoint_id: str) -> None:
+        self.stats = ["available", "total", "empty", "broken"]
         self.params = {"app_key": api_key}
         self.bikepoint_id = bikepoint_id
         self.response: Optional[dict[str, Any]] = None
@@ -23,21 +24,21 @@ class TFLBikePointRequest:
         self.response = _req.json()
 
     @property
-    def bikes(self) -> Optional[int]:
+    def available(self) -> Optional[int]:
         return self._add_prop_by_key("NbBikes")
 
     @property
-    def total_docks(self) -> Optional[int]:
+    def total(self) -> Optional[int]:
         return self._add_prop_by_key("NbDocks")
 
     @property
-    def empty_docks(self) -> Optional[int]:
+    def empty(self) -> Optional[int]:
         return self._add_prop_by_key("NbEmptyDocks")
 
     @property
-    def broken_docks(self) -> Optional[int]:
-        if all([self.total_docks, self.empty_docks, self.bikes]):
-            return self.total_docks - self.empty_docks - self.bikes
+    def broken(self) -> Optional[int]:
+        if all([self.total, self.empty, self.available]):
+            return self.total - self.empty - self.available
         return None
 
     def _add_prop_by_key(self, key: str) -> Optional[int]:
@@ -50,21 +51,16 @@ class TFLBikePointRequest:
 
 
 REQUEST_TIME = Summary("request_processing_seconds", "Time spent processing request")
-GAUGES = {
-    "bikes": Gauge("bikes", "Number of bikes"),
-    "total_docks": Gauge("total_docks", "Total number of docks"),
-    "empty_docks": Gauge("empty_docks", "Number of empty docks"),
-    "broken_docks": Gauge("broken_docks", "Number of broken docks")
-}
+DOCK_STATS = Gauge("tfl_dock_stat", "Bikepoint dock statistic", ["stat"])
 
 
 @REQUEST_TIME.time()
 def do_tfl_get_request(req: TFLBikePointRequest) -> None:
     req.get()
-    for key, gauge in GAUGES.items():
-        dock_stat = getattr(req, key)
+    for stat in req.stats:
+        dock_stat = getattr(req, stat)
         if dock_stat:
-            gauge.set(dock_stat)
+            DOCK_STATS.labels(stat=stat).set(dock_stat)
 
 
 if __name__ == "__main__":
