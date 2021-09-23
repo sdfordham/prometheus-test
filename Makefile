@@ -28,4 +28,4 @@ stop: $(addsuffix _stop,$(SERVICES)) $(addsuffix _stop,$(DASHBOARD))
 	docker network rm $(BRIDGE_NET_NAME)
 
 %_stop::
-	docker container stop $*
+	-docker container stop $*
