@@ -7,10 +7,8 @@ ENV BIKEPOINT_ID="BikePoints_73"
 ENV SERVER_PORT=8000
 ENV REQUEST_BUFFER=10
 
-COPY requirements.txt .
-RUN python -m pip install -r requirements.txt
-
 WORKDIR /app
 COPY . /app
+RUN python -m pip install -r requirements.txt
 
 CMD ["python", "go.py"]
