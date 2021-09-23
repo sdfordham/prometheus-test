@@ -1,0 +1,15 @@
+groups:
+  - name: bike_count_changes
+    rules:
+    - alert: BikeReturned
+      expr: idelta(tfl_dock_stat{stat="available"}[1m]) > 0
+      labels:
+        severity: page
+      annotations:
+        summary: One or more bikes were returned to the bikepoint
+    - alert: BikeTaken
+      expr: idelta(tfl_dock_stat{stat="available"}[1m]) < 0
+      labels:
+        severity: page
+      annotations:
+        summary: One or more bikes were taken from the bikepoint
